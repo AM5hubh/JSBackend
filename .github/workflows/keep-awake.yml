@@ -7,6 +7,9 @@ on:
 jobs:
   keep_alive:
     runs-on: ubuntu-latest
+    env:
+      BACKEND_URL: ${{ secrets.RENDER_BACKEND_URL }}  # Get the URL from GitHub Secrets
+
     steps:
       - name: Ping Render Backend
-        run: curl -s "https://jsbackend-47kc.onrender.com/healthz"
+        run: curl -s "$BACKEND_URL/healthz"
