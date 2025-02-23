@@ -10,7 +10,6 @@ app.use(
     credentials: true,
   })
 );
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(express.static('public'))
@@ -19,10 +18,10 @@ app.use(cookieParser());
 //routes import
 
 import userRouter from "./routes/user.routes.js";
+const path = process.env.ROUTES_PATH;
 
 //routes declaration
-app.use("/api/v1/users", userRouter); // goes to user.routes.js
-//http://localhost:8000/api/v1/users/register
+app.use(`${path}`, userRouter); // goes to user.routes.js
 app.get("/healthz", (req, res) => {
   res.status(200).send("OK");
 });
