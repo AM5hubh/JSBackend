@@ -9,4 +9,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping Render Backend
-        run: curl -s "https://your-app.onrender.com/healthz"
+        run: curl -s "https://jsbackend-47kc.onrender.com/healthz"
