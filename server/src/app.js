@@ -23,6 +23,7 @@ const path = process.env.ROUTES_PATH;
 //routes declaration
 app.use(`${path}`, userRouter); // goes to user.routes.js
 app.get("/healthz", (req, res) => {
+  console.log("pinged")
   res.status(200).send("OK");
 });
 
