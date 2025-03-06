@@ -21,22 +21,21 @@ const userSchema = new Schema(
     },
     role:{
       type: String,
-      required: true,
       default: "user",
       enum: ["user", "admin", "vendor"],
     },
     name: {
       type: String,
-      required: true,
       trim: true,
       index: true, //for search optimisation
     },
     avatar: {
-      type: String, //cloudinary url
-      required: true,
+      type: String,
+      default: "" //cloudinary url
     },
     coverImage: {
       type: String,
+      default: ""
     },
     password: {
       type: String,

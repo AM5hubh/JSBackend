@@ -64,24 +64,22 @@ const registerUser = asyncHandler(async (req, res) => {
     coverImageLocalPath = req.files.coverImage[0].path;
   }
 
-  if (!avatarLocalPath) {
-    throw new ApiError(400, "Avatar file is required1");
-  }
+  // if (!avatarLocalPath) {
+  //   throw new ApiError(400, "Avatar file is required1");
+  // }
 
   //cloudinary upload
   const avatar = await uploadOnCloudinary(avatarLocalPath);
   const coverImage = await uploadOnCloudinary(coverImageLocalPath);
 
-  if (!avatar) {
-    throw new ApiError(400, "Avatar file is required2");
-  }
+  // if (!avatar) {
+  //   throw new ApiError(400, "Avatar file is required2");
+  // }
   //   console.log(avatar);
   //   console.log(coverImage);
 
   const user = await User.create({
     name,
-    avatar: avatar.url,
-    coverImage: coverImage?.url || "",
     email,
     password,
     username: username.toLowerCase(),
