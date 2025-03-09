@@ -18,7 +18,7 @@ app.use(
       credentials: true,
   })
 );
-app.disable("x-powered-by");
+// app.disable("x-powered-by");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(express.static('public'))
