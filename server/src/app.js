@@ -5,23 +5,23 @@ import { errorHandler } from "./middlewares/errorHandler.js";
 const app = express();
 
 const allowedOrigins = [
-  process.env.CORS_ORIGIN1,
-  process.env.CORS_ORIGIN2,
-  process.env.CORS_ORIGIN3,
-  process.env.CORS_ORIGIN4,
-  process.env.CORS_ORIGIN5,
+  `${process.env.CORS_ORIGIN1}`,
+  `${process.env.CORS_ORIGIN2}`,
+  `${process.env.CORS_ORIGIN3}`,
+  `${process.env.CORS_ORIGIN4}`,
+  `${process.env.CORS_ORIGIN5}`,
 ];
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (allowedOrigins.includes(origin) || !origin) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true,
+      origin: (origin, callback) => {
+          if (allowedOrigins.includes(origin) || !origin) {
+              callback(null, true);
+          } else {
+              callback(new Error('Not allowed by CORS'));
+          }
+      },
+      credentials: true,
   })
 );
 app.disable("x-powered-by");
