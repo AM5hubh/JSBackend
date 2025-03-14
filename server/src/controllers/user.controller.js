@@ -152,18 +152,14 @@ const getUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id).select(
     "-password -refreshToken"
   );
-  
+
   if (!user) {
     throw new ApiError(404, "User not found");
   }
-  
-  return res.status(200).json(
-    new ApiResponse(
-      200,
-      { user },
-      "User profile fetched successfully"
-    )
-  );
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, { user }, "User profile fetched successfully"));
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
@@ -208,9 +204,8 @@ const updateme = asyncHandler(async (req, res) => {
 });
 
 const refreshAccessToken = asyncHandler(async (req, res) => {
-  const incomingRefreshToken =
+  const incomingRefreshToken  =
     req.cookies.refreshToken || req.body.refreshToken;
-
   if (!incomingRefreshToken) {
     throw new ApiError(401, "Unauthorized Request");
   }
@@ -220,9 +215,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
       incomingRefreshToken,
       process.env.REFRESH_TOKEN_SECRET
     );
-
     const user = await User.findById(decodedToken?._id);
-
     if (!user) {
       throw new ApiError(401, "Invalid Refresh Token");
     }
@@ -230,7 +223,6 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     if (incomingRefreshToken !== user?.refreshToken) {
       throw new ApiError(401, "Refresh Token is expired or used");
     }
-
     const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
       user._id
     );

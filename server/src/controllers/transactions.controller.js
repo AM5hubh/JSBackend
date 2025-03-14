@@ -67,26 +67,29 @@ export const addTransaction = async (req, res) => {
 // Edit an existing transaction
 export const editTransaction = async (req, res) => {
   try {
-    const { transactionId } = req.params;
-    const { amount, description, category, date } = req.body;
-
+    // const { transactionId } = req.params;
+    const { amount, description, category, date, transactionId } = req.body;
+    const userWithTransactions = await Transaction.findById(req.user._id);
+    if (!userWithTransactions) {
+      return res.status(404).json({
+        success: false,
+        message: "User record not found",
+      });
+    }
+    console.log(transactionId)
     // Find transaction and verify ownership
-    const transaction = await Transaction.findById(transactionId);
-
-    if (!transaction) {
+    const transactionIndex = userWithTransactions.transactions.findIndex(
+      transaction => transaction._id.toString() === transactionId
+    );
+    const transaction = userWithTransactions.transactions[transactionIndex];
+    console.log(transaction)
+    if (transactionIndex === -1) {
       return res.status(404).json({
         success: false,
         message: "Transaction not found",
       });
     }
 
-    // Verify that the logged-in user owns this transaction
-    if (transaction.owner.toString() !== req.user._id.toString()) {
-      return res.status(403).json({
-        success: false,
-        message: "Unauthorized: You can only edit your own transactions",
-      });
-    }
 
     // Update transaction fields
     if (amount !== undefined) transaction.amount = amount;
@@ -95,7 +98,7 @@ export const editTransaction = async (req, res) => {
     if (date !== undefined) transaction.date = new Date(date);
 
     // Save updated transaction
-    await transaction.save();
+    await userWithTransactions.save();
 
     res.status(200).json({
       success: true,
@@ -115,7 +118,7 @@ export const editTransaction = async (req, res) => {
 export const deleteTransaction = async (req, res) => {
   try {
     const { transactionId } = req.body;
-    
+
     // Find the user with their transactions
     const userWithTransactions = await Transaction.findById(req.user._id);
     
