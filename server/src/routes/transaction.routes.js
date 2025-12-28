@@ -9,6 +9,6 @@ const router = Router()
 router.route("/addtransaction").post(verifyJWT,addTransaction)
 router.route("/usertransactions").get(verifyJWT,getUserTransactions)
 router.route("/removetransaction").post(verifyJWT,deleteTransaction)
-router.route("/newtransaction").patch(verifyJWT,editTransaction)
+router.route("/edittransaction").patch(verifyJWT,editTransaction)
 
 export default router

@@ -70,13 +70,6 @@ export const editTransaction = async (req, res) => {
   try {
     const { amount, description, category, date } = req.body;
     const transactionId = req.params.transactionId || req.body.transactionId;
-    console.log("Editing transaction:", {
-      transactionId,
-      amount,
-      description,
-      category,
-      date,
-    });
     if (!transactionId) {
       return res.status(400).json({
         success: false,
@@ -106,9 +99,6 @@ export const editTransaction = async (req, res) => {
       { _id: req.user._id, "transactions._id": transactionId },
       { $set: setFields }
     );
-
-    console.log("user", req.user._id);
-    console.log("transactionId", transactionId);
     if (updateResult.modifiedCount === 0) {
       // In case the document _id isn't the user id, try owner linkage
       const fallbackResult = await Transaction.updateOne(
